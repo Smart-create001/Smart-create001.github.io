@@ -24,14 +24,10 @@ jobs:
           node-version: "22"
           cache: "npm"
       - run: npm ci --prefer-offline --no-audit --no-fund
-      - run: chmod +x scripts/*.sh
-      - run: npm run build
-      # vinext build output: dist/client = static assets, dist/server = worker
-      # สำหรับ GitHub Pages (static) เราส่ง dist/client ขึ้น Pages
-      # ถ้าอยากให้เป็น SSR เต็มรูปแบบ ให้ใช้ Cloudflare Workers แทน (deploy.yml)
+      - run: EXPORT_STATIC=1 npx next build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/client
+          path: out
 
   deploy:
     environment:
