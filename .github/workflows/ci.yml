@@ -16,6 +16,8 @@ jobs:
           cache: "npm"
       - name: Install (ci)
         run: npm ci --prefer-offline --no-audit --no-fund
+      - name: Fix script permissions
+        run: chmod +x scripts/*.sh
       - name: Build + Validate Artifact
         run: npm run build
       - name: Verify rendered HTML

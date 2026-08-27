@@ -18,6 +18,7 @@ jobs:
           cache: "npm"
       - name: Install
         run: npm ci --prefer-offline --no-audit --no-fund
+      - run: chmod +x scripts/*.sh
       - name: Build
         run: npm run build
       # Deploy to Cloudflare Workers — ต้องตั้ง Secrets ใน GitHub repo ก่อน:

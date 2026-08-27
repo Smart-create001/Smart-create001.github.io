@@ -24,6 +24,7 @@ jobs:
           node-version: "22"
           cache: "npm"
       - run: npm ci --prefer-offline --no-audit --no-fund
+      - run: chmod +x scripts/*.sh
       - run: npm run build
       # vinext build output: dist/client = static assets, dist/server = worker
       # สำหรับ GitHub Pages (static) เราส่ง dist/client ขึ้น Pages
