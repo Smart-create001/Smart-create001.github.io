@@ -1,8 +1,29 @@
 # SMART_TECH — Full Version 0.01
 
+[![CI](https://github.com/<username>/<repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<username>/<repo>/actions/workflows/ci.yml)
+[![Deploy](https://github.com/<username>/<repo>/actions/workflows/deploy.yml/badge.svg)](https://github.com/<username>/<repo>/actions/workflows/deploy.yml)
+
+> **พร้อม Deploy:** แค่ `git push origin main` — GitHub Actions จะ `npm run build` ให้อัตโนมัติ ถ้าต่อ Cloudflare (ดูด้านล่าง) เว็บจะขึ้นทันที
+
 Smart's Personal Engineering Lab: a multi-route engineering portfolio and
 knowledge platform documenting real builds, experiments, learning evidence and
 the direction toward Agri-Robotics.
+
+## 🚀 Deploy ใน 1 คลิก
+
+### วิธีที่ 1 — Cloudflare Workers (แนะนำ, เร็วสุด)
+1. Push โฟลเดอร์นี้ขึ้น GitHub: `git push -u origin main`
+2. ไป Cloudflare Dashboard → Workers & Pages → Create → Connect to Git → เลือก repo นี้
+   - Build command: `npm run build`
+   - หรือใช้ GitHub Actions: ตั้ง Secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` แล้ว push — workflow `deploy.yml` จะ `wrangler deploy` ให้เอง (`wrangler.toml:1`)
+3. ครั้งต่อไปแค่ `git push` เว็บอัปเดตอัตโนมัติ
+
+### วิธีที่ 2 — Vercel (ง่ายที่สุดถ้าไม่ใช้ D1/R2)
+1. ไป vercel.com → Add New Project → Import Git Repository
+2. กด Deploy ได้เลย (Vercel จะ `npm run build` ให้)
+
+### วิธีที่ 3 — GitHub Actions อย่างเดียว (ตรวจ build)
+- แค่ push ก็รัน `ci.yml` ตรวจว่า build ผ่าน (`scripts/build-verified.sh:21`) — เอาไว้เช็คว่าพร้อม deploy
 
 ## Routes
 

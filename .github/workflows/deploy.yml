@@ -1,0 +1,32 @@
+name: Deploy — Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+      - name: Install
+        run: npm ci --prefer-offline --no-audit --no-fund
+      - name: Build
+        run: npm run build
+      # Deploy to Cloudflare Workers — ต้องตั้ง Secrets ใน GitHub repo ก่อน:
+      # CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID
+      # ถ้าไม่มี secrets จะแค่ build ผ่าน (ไม่ deploy) แต่ก็พร้อมให้ Cloudflare Pages auto-build ได้
+      - name: Deploy to Cloudflare Workers
+        if: secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != ''
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
